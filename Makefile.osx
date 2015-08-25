@@ -1,0 +1,119 @@
+CC = g++
+CXX = g++
+CORESRC=src/runtime
+PYSRC=src/frontend
+COREINC=include/runtime
+PYINC=include/frontend
+OBJ=obj
+BIN=bin
+NUMPY = /usr/local/Cellar/numpy/1.9.2_1/lib/python2.7/site-packages/numpy
+CXXFLAGS = -c -O3 -Wall -I$(COREINC) -I$(PYINC) -I/usr/include/python2.7 -I$(NUMPY)/core/include
+LDFLAGS = -O3 -lmpi -lpython
+
+all: $(BIN)/pybsp
+
+clean:
+	if [ -e pybsp ]; then rm pybsp; fi
+	for f in `find $(OBJ) -name "*.o";`; do rm $$f; done
+
+cbak:
+	for f in `find . -name '*~'`; do rm $$f; done
+
+$(BIN)/pybsp: $(OBJ)/BSPArrayPartition.o $(OBJ)/BSPArrayRegistration.o $(OBJ)/BSPArrayShape.o $(OBJ)/BSPException.o $(OBJ)/BSPGlobalArray.o $(OBJ)/BSPGlobalRequest.o $(OBJ)/BSPGlobalRequestLinearMapping.o $(OBJ)/BSPGlobalRequestPointSequence.o $(OBJ)/BSPGlobalRequestPointTensor.o $(OBJ)/BSPGlobalRequestRegionSequence.o $(OBJ)/BSPGlobalRequestRegionTensor.o $(OBJ)/BSPGrid.o $(OBJ)/BSPIndexSet.o $(OBJ)/BSPIndexSetPointSequence.o $(OBJ)/BSPIndexSetPointTensor.o $(OBJ)/BSPIndexSetRegionSequence.o $(OBJ)/BSPIndexSetRegionTensor.o $(OBJ)/BSPLocalArray.o $(OBJ)/BSPLocalRequest.o $(OBJ)/BSPLocalRequestPointSequence.o $(OBJ)/BSPLocalRequestPointTensor.o $(OBJ)/BSPLocalRequestRegionSequence.o $(OBJ)/BSPLocalRequestRegionTensor.o $(OBJ)/BSPMessage.o $(OBJ)/BSPNameSpace.o $(OBJ)/BSPNamedObject.o $(OBJ)/BSPNet.o $(OBJ)/BSPRuntime.o $(OBJ)/BSPLocalRequestRegion.o $(OBJ)/BSPGlobalRequestRegion.o $(OBJ)/module.o $(OBJ)/pybsp.o
+	$(CC) -o $@ $(LDFLAGS) $^
+
+$(OBJ)/BSPArrayPartition.o: $(CORESRC)/BSPArrayPartition.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPArrayRegistration.o: $(CORESRC)/BSPArrayRegistration.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPArrayShape.o: $(CORESRC)/BSPArrayShape.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPException.o: $(CORESRC)/BSPException.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPGlobalArray.o: $(CORESRC)/BSPGlobalArray.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPGlobalRequest.o: $(CORESRC)/BSPGlobalRequest.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPGlobalRequestLinearMapping.o: $(CORESRC)/BSPGlobalRequestLinearMapping.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPGlobalRequestPointSequence.o: $(CORESRC)/BSPGlobalRequestPointSequence.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPGlobalRequestPointTensor.o: $(CORESRC)/BSPGlobalRequestPointTensor.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPGlobalRequestRegionSequence.o: $(CORESRC)/BSPGlobalRequestRegionSequence.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPGlobalRequestRegionTensor.o: $(CORESRC)/BSPGlobalRequestRegionTensor.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPGrid.o: $(CORESRC)/BSPGrid.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPIndexSet.o: $(CORESRC)/BSPIndexSet.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPIndexSetPointSequence.o: $(CORESRC)/BSPIndexSetPointSequence.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPIndexSetPointTensor.o: $(CORESRC)/BSPIndexSetPointTensor.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPIndexSetRegionSequence.o: $(CORESRC)/BSPIndexSetRegionSequence.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPIndexSetRegionTensor.o: $(CORESRC)/BSPIndexSetRegionTensor.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPLocalArray.o: $(CORESRC)/BSPLocalArray.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPLocalRequest.o: $(CORESRC)/BSPLocalRequest.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPLocalRequestPointSequence.o: $(CORESRC)/BSPLocalRequestPointSequence.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPLocalRequestPointTensor.o: $(CORESRC)/BSPLocalRequestPointTensor.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPLocalRequestRegionSequence.o: $(CORESRC)/BSPLocalRequestRegionSequence.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPLocalRequestRegionTensor.o: $(CORESRC)/BSPLocalRequestRegionTensor.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPMessage.o: $(CORESRC)/BSPMessage.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPNameSpace.o: $(CORESRC)/BSPNameSpace.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPNamedObject.o: $(CORESRC)/BSPNamedObject.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPNet.o: $(CORESRC)/BSPNet.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPRuntime.o: $(CORESRC)/BSPRuntime.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPLocalRequestRegion.o: $(CORESRC)/BSPLocalRequestRegion.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/BSPGlobalRequestRegion.o: $(CORESRC)/BSPGlobalRequestRegion.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/module.o: $(PYSRC)/module.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<
+
+$(OBJ)/pybsp.o: $(PYSRC)/pybsp.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $<

@@ -1,0 +1,71 @@
+This is PyBSP, a BSP (Bulk Synchronous Parallel) parallel computing extension for python.
+
+BSP is a parallel computing model that arranges parallel computing as a sequence of 
+supersteps and distributes data among processes. Within each superstep, computation is
+carried out locally with appropiate data gathered from the processes, and then data exchange
+is jointly planned, so that at the moment the superstep reaches the global synchronization,
+the exchange plan will be performed.
+
+PyBSP aims at supporting BSP for python with a very simple python module, i.e,
+bsp. To use this module, just do this:
+>>> import bsp
+Now, you can use all these bsp functions to make python a real BSP monster:
+>>> p = bsp.procCount() # assign the number of processes to p
+>>> q = bsp.myProcID() # this is the rank of current process
+
+>>> bsp.fromObject(somePythonObject, 'name1') 
+>>> # pack the content of an object and name the package as 'name1'
+>>> # data have to be packed into package before sending out to other procs
+
+>>> bsp.fromNumpy(someNumpyArray, 'name2')
+>>> # pack the content of a numpy array and name the package as 'name2'
+
+>>> bsp.toProc(someProcID, 'name1') # send package 'name1' to some proc
+>>> bsp.toProc(anotherProcID, 'name2') # send package 'name2' to another proc
+>>> bsp.sync('some pass phrase') 
+>>> # this is a global sync, to begin the data exchange and wait for it 
+>>> # the pass phrase is to avoid different syncs hit each other
+
+After the sync, at the 'some proc', we can get the data of 'name1' by:
+>>> obj1 = bsp.toObject(bsp.fromProc(senderProcID)['name1'])
+>>> # fromProc returns a dictionary containing all the incoming packages
+>>> # toObject unpacks an object from the package
+
+Meanwhile, at the 'another proc', we can:
+>>> numpyArray2 = bsp.toNumpy(bsp.fromProc(senderProcID)['name2'])
+>>> # toNumpy unpacks a numpy array from the package
+
+So far, we have seen how this works with the basic BSP operations:
+* bsp.procCount: numer of processes
+* bsp.myProcID: current proc ID
+* bsp.fromObject: pack object into a named package
+* bsp.fromNumpy: pack numpy array into a named package
+* bsp.toProc: send package to a proc
+* bsp.sync: global synchronization
+* bsp.fromProc: get a dictionary of packages from a proc
+* bsp.toObject: unpack object from a named package
+* bsp.toNumpy: unpack numpy array from a named package
+
+However, the BSP module gives us far more funtions than these:
+>>> bsp.createArray('name3',dtype, arrayShape)
+>>> # create a numpy array with dtype and arrayShape, and then pack it
+>>> # into a package named 'name3'
+>>> # for example:
+>>> bsp.createArray('arr.a1','f8',[10,10])
+Actually, if a package is packed with a numpy array, we can access it without
+unpacking it:
+>>> arrayView = bsp.asNumpy('name3')
+>>> # now all accesses to arrayView are directly into / from the package
+We can delete packages at any time:
+>>> bsp.delete('packageName')
+Wait, that's more: if several packages have the same prefix separated by '.',
+like 'arr' in 'arr.a1','arr.a2',and 'arr.b', then
+>>> bsp.delete('arr')
+deletes all these three at the same time.
+
+Packages can be shared among processes, like:
+>>> bsp.share('packageName1','packageName2',...,'packageNameK')
+So that any part of data from them can be requested from any other processes.
+Even better, we can merge packages among processes to form global arrays, so
+that access can be of Global-Address-Space style. please read
+PyBSPTutorial.pdf for more information.

@@ -1,0 +1,7 @@
+AUTOMAKE_OPTIONS = subdir-objects
+NUMPY=`python -c "import numpy;print numpy.__path__[0]"`
+AM_CXXFLAGS = -Iinclude/runtime -Iinclude/frontend `python-config --includes` -I$(NUMPY)/core/include -Wall -O3
+AM_LDFLAGS = -Wall -O3 -lmpi `python-config --ldflags`
+
+bin_PROGRAMS = pybsp
+pybsp_SOURCES = src/runtime/BSPArrayPartition.cpp src/runtime/BSPArrayRegistration.cpp src/runtime/BSPArrayShape.cpp src/runtime/BSPException.cpp src/runtime/BSPGlobalArray.cpp src/runtime/BSPGlobalRequest.cpp src/runtime/BSPGlobalRequestLinearMapping.cpp src/runtime/BSPGlobalRequestPointSequence.cpp src/runtime/BSPGlobalRequestPointTensor.cpp src/runtime/BSPGlobalRequestRegionSequence.cpp src/runtime/BSPGlobalRequestRegionTensor.cpp src/runtime/BSPGrid.cpp src/runtime/BSPIndexSet.cpp src/runtime/BSPIndexSetPointSequence.cpp src/runtime/BSPIndexSetPointTensor.cpp src/runtime/BSPIndexSetRegionSequence.cpp src/runtime/BSPIndexSetRegionTensor.cpp src/runtime/BSPLocalArray.cpp src/runtime/BSPLocalRequest.cpp src/runtime/BSPLocalRequestPointSequence.cpp src/runtime/BSPLocalRequestPointTensor.cpp src/runtime/BSPLocalRequestRegionSequence.cpp src/runtime/BSPLocalRequestRegionTensor.cpp src/runtime/BSPMessage.cpp src/runtime/BSPNameSpace.cpp src/runtime/BSPNamedObject.cpp src/runtime/BSPNet.cpp src/runtime/BSPRuntime.cpp src/runtime/BSPLocalRequestRegion.cpp src/runtime/BSPGlobalRequestRegion.cpp src/frontend/module.cpp src/frontend/pybsp.cpp
